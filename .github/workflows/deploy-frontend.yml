@@ -34,10 +34,6 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Deploy to S3
-        uses: jakejarvis/s3-sync-action@main   # ✅ fixed version
+        uses: aws-actions/aws-cli-action@v2
         with:
-          args: --acl public-read --delete
-        env:
-          AWS_S3_BUCKET: ${{ secrets.S3_BUCKET }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-          SOURCE_DIR: my-react-app-Test/build   # path to build folder
+          args: s3 sync my-react-app-Test/build/ s3://${{ secrets.S3_BUCKET }} --delete --acl public-read
